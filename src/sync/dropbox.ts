@@ -4,6 +4,10 @@ import { useSettings } from '../store/settings';
 const TOKEN_KEY = 'markdown-editor-dropbox-token';
 const VERIFIER_KEY = 'markdown-editor-dropbox-verifier';
 
+// ビルド時に埋め込むデフォルトのアプリキー(プロジェクト直下の .env の VITE_DROPBOX_APP_KEY)。
+// 設定画面での入力があればそちらを優先する。
+const DEFAULT_APP_KEY = (import.meta.env.VITE_DROPBOX_APP_KEY as string | undefined) ?? '';
+
 interface StoredToken {
   accessToken: string;
   refreshToken?: string;
@@ -11,7 +15,7 @@ interface StoredToken {
 }
 
 function appKey(): string {
-  const key = useSettings.getState().credentials.dropboxAppKey;
+  const key = useSettings.getState().credentials.dropboxAppKey || DEFAULT_APP_KEY;
   if (!key) throw new Error('Dropbox アプリキーが未設定です。設定画面で入力してください。');
   return key;
 }
@@ -135,7 +139,7 @@ export const dropboxProvider: SyncProvider = {
   label: 'Dropbox',
 
   isConfigured() {
-    return Boolean(useSettings.getState().credentials.dropboxAppKey);
+    return Boolean(useSettings.getState().credentials.dropboxAppKey || DEFAULT_APP_KEY);
   },
 
   isSignedIn() {
