@@ -15,7 +15,7 @@ export default defineConfig({
         description:
           'StackEdit風のMarkdownエディタ。オフライン編集とGoogle Drive / GitHub / Dropboxへの保存に対応。',
         lang: 'ja',
-        start_url: '.',
+        start_url: '/markdown-editor/',
         display: 'standalone',
         background_color: '#ffffff',
         theme_color: '#2c3e50',
